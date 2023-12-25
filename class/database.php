@@ -16,7 +16,7 @@ class Database {
     }
 
     private function getConfig() {
-        include_once("config.php");
+        include_once 'config.php';
         $this->host = $config['host'];
         $this->user = $config['username'];
         $this->password = $config['password'];
