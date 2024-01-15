@@ -1,6 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .container{
-    margin-top: 150px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+    margin-top: 10px;
+}
+
+.main {
+    margin-bottom: 30px;
+}
+
+table, th, td {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+table {
+    margin-top: 25px;
+    width: 60%;
+}
+
+.input {
+    margin-bottom: 15px;
+}
+
+.input label {
+    display: inline-block;
+    width: 120px;
+    margin-right: 60px;
+    margin-bottom: 10px;
+}
+
+.input input {
+    padding: 5px 0;
+    width: 250px;
+}
+
+.input select {
+    padding: 5px 50px;
+}
+
+.submit input {
+    background: #1e90ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 12px 12px;
+    cursor: pointer;
+}
+
+.submit input:hover {
+    background: #1a7fe3;
 }

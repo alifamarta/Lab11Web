@@ -1,33 +1,52 @@
 <?php
 
-class Form {
-    private $fields = array();
-    private $action;
-    private $submit = "Submit Form";
-    private $jumField = 0;
+class Form
+{
+    public static function generateTable($result)
+    {
+        $tableHTML = '<table class="data-table">
+                        <tr>
+                            <th>Nama Barang</th>
+                            <th>Kategori</th>
+                            <th>Harga Jual</th>
+                            <th>Harga Beli</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>';
 
-    public function __construct($action, $submit) {
-        $this->action = $action;
-        $this->submit = $submit;
-    }
-
-    public function displayForm() {
-        echo "<form action='".$this->action."' method='POST'>";
-        echo '<table width="100%" border="0">';
-        for ($j=0; $j<count($this->fields); $j++) {
-            echo "<tr><td align='right'>".$this->fields[$j]['label']."</td>";
-            echo "<td><input type='text'name='".$this->fields[$j]['name']."'></td></tr>";
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $tableHTML .= '<tr>
+                                <td>' . $row['nama'] . '</td>
+                                <td>' . $row['kategori'] . '</td>
+                                <td>' . $row['harga_beli'] . '</td>
+                                <td>' . $row['harga_jual'] . '</td>
+                                <td>' . $row['stok'] . '</td>
+                                <td class="aksi">
+                                    <a class="ubah" href="ubah.php?id=' . $row['id_barang'] . '">Ubah</a>
+                                    <a class="hapus" href="hapus.php?id=' . $row['id_barang'] . '">Hapus</a>
+                                </td>
+                            </tr>';
+            }
+        } else {
+            $tableHTML .= '<tr>
+                            <td colspan="7">Belum ada data</td>
+                        </tr>';
         }
+        
 
-        echo "<tr><td colspan='2'>";
-        echo "<input type='submit' value='".$this->submit."'></td></tr>";
-        echo "</table>";
+        $tableHTML .= '</table>';
+        return $tableHTML;
     }
 
-    public function addField($name, $label) {
-        $this->fields [$this->jumField]["name"] = $name;
-        $this->fields [$this->jumField]["label"] = $label;
-        $this->jumField++;
+    public static function generateUbah($currentValue, $options)
+    {
+        $html = '';
+        foreach ($options as $value => $label) {
+            $selected = ($value == $currentValue) ? 'selected="selected"' : '';
+            $html .= "<option value=\"$value\" $selected>$label</option>";
+        }
+        return $html;
     }
 }
 ?>

@@ -1,78 +1,32 @@
-<?php 
+<?php
 
-class Database {
-    protected $host;
-    protected $user;
-    protected $password;
-    protected $db_name;
+class Database
+{
     protected $conn;
 
-    public function __construct() {
-        $this->getConfig();
-        $this->conn = new mysqli($this->host, $this->user, $this->password, $this->db_name);
+    public function __construct($host, $user, $password, $db_name)
+    {
+        $this->conn = new mysqli($host, $user, $password, $db_name);
+
         if ($this->conn->connect_error) {
-            die("Connection failed: ". $this->conn->connect_error);
+            die("Connection failed: " . $this->conn->connect_error);
         }
     }
 
-    private function getConfig() {
-        include_once 'config.php';
-        $this->host = $config['host'];
-        $this->user = $config['username'];
-        $this->password = $config['password'];
-        $this->db_name = $config['db_name'];
-    }
-
-    public function query($sql) {
+    public function query($sql)
+    {
         return $this->conn->query($sql);
     }
 
-    public function get($table, $where=null) {
-        if($where){
-            $where = 'WHERE' .$where;
-        }
-        $sql = 'SELECT * FROM '. $table. $where;
-        $sql = $this->conn->query($sql);
-        $sql = $sql->fetch_assoc();
-        return $sql;
+    public function escapeString($value)
+    {
+        return $this->conn->real_escape_string($value);
     }
 
-    public function insert($table, $data) {
-        if (is_array($data)) {
-            foreach ($data as $key => $value) {
-                $column[] = $key;
-                $value[] = "'${value}'";
-            }
-            $columns = implode(", ", $column);
-            $values = implode(", ", $value);
-        }
-        $sql = "INSERT INTO".$table."(".$columns.") VALUES (".$values.")";
-        $sql = $this->conn->query($sql);
-
-        if ($sql == true){
-            return $sql;
-        } else {
-            return false;
-        }
-    }
-
-    public function update($table, $data, $where) {
-        $update_value = "";
-
-        if (is_array($data)) {
-            foreach ($data as $key => $value) {
-                $update_value[]= "$key='${value}'";
-            }
-            $update_value = implode(", ", $update_value);
-        }
-
-        $sql = "UPDATE " .$table." SET ".$update_value." WHERE ".$where;
-        $sql = $this->conn->query($sql);
-        if ($sql == true){
-            return true;
-        } else {
-            return false;
-        }
+    public function closeConnection()
+    {
+        $this->conn->close();
     }
 }
+
 ?>
