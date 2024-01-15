@@ -1,6 +1,7 @@
 <?php
-require_once '../../class/database.php';
-include_once '../../class/form.php';
+error_reporting(E_ALL);
+require '../../class/database.php';
+include '../../class/form.php';
 
 $config = include '../../class/config.php';
 $db = new Database($config['host'], $config['username'], $config['password'], $config['db_name']);
@@ -12,23 +13,18 @@ if (isset($_POST['submit'])) {
     $harga_beli = $db->escapeString($_POST['harga_beli']);
     $stok = $db->escapeString($_POST['stok']);
 
-    $sql = "INSERT INTO data_barang (nama, kategori, harga_jual, harga_beli, stok,)";
-    $sql .= "VALUES ('{$nama}, {$kategori}, {$harga_jual}, {$harga_beli}, {$stok}')";
-
+    $sql = "INSERT INTO data_barang (nama, kategori, harga_jual, harga_beli, stok) ";
+    $sql .= "VALUES ('{$nama}', '{$kategori}', '{$harga_jual}', '{$harga_beli}', '{$stok}')";
     $result = $db->query($sql);
 
-    if (!$result) {
-        echo "error"; 
-    } else {
-        header('location: index.php');
-    }
+    header('location: index.php');
 }
 ?>
 
 <?php include '../../template/header.php'; ?>
 
+<h1>Tambah Barang</h1>
 <div class="main">
-    <h1>Tambah Barang</h1>
     <form action="tambah.php" method="post" enctype="multipart/form-data">
         <div class="input">
             <label>Nama Barang</label>

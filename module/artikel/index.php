@@ -1,5 +1,5 @@
 <?php
-include '../../class/database.php';
+require '../../class/database.php';
 include '../../class/form.php';
 
 $config = include '../../class/config.php';
@@ -14,6 +14,7 @@ require '../../template/header.php';
 ?>
 <div class="main">
     <h1>Data Barang</h1>
+        <a href="tambah.php">Tambah Barang</a>
         <?php
             echo form::generateTable($result)
             ?>
